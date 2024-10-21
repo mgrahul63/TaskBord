@@ -1,7 +1,10 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
-const TaskForm = ({ onAddTask }) => {
+import { useTasksDispatch } from "../contexts/TasksContext";
+const TaskForm = () => {
   const [task, setTask] = useState("");
+
+  const dispatch = useTasksDispatch();
+
   return (
     <div className="form">
       <input
@@ -13,7 +16,11 @@ const TaskForm = ({ onAddTask }) => {
         onClick={
           task.trim().length > 0
             ? () => {
-                onAddTask(task);
+                dispatch({
+                  type: "added",
+                  task,
+                });
+
                 setTask("");
               }
             : () => setTask("")

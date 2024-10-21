@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
+import { useTasksDispatch } from "../contexts/TasksContext";
 
-const Task = ({ task, onChange, onDelete }) => {
+const Task = ({ task }) => {
   const [isEdiitng, setIsEditing] = useState(false);
   const [text, setText] = useState(task.text);
+
+  const dispatch = useTasksDispatch();
+
   let taskContent;
+
   if (isEdiitng) {
     taskContent = (
       <>
@@ -17,9 +22,13 @@ const Task = ({ task, onChange, onDelete }) => {
         <button
           onClick={() => {
             setIsEditing(false);
-            onChange({
-              ...task,
-              text,
+
+            dispatch({
+              type: "changed",
+              task: {
+                ...task,
+                text,
+              },
             });
           }}
         >
@@ -41,15 +50,28 @@ const Task = ({ task, onChange, onDelete }) => {
         type="checkbox"
         checked={task.done}
         onChange={(e) => {
-          onChange({
-            ...task,
-            done: e.target.checked,
+          dispatch({
+            type: "changed",
+            task: {
+              ...task,
+              done: e.target.checked,
+            },
           });
         }}
       />
       <span className="btn">
         {" "}
-        {taskContent} <button onClick={() => onDelete(task.id)}>Delete</button>
+        {taskContent}{" "}
+        <button
+          onClick={() => { 
+            dispatch({
+              type: "deleted",
+              id: task.id,
+            });
+          }}
+        >
+          Delete
+        </button>
       </span>
     </label>
   );
