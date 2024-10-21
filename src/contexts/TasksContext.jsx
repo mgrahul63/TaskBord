@@ -16,7 +16,6 @@ export function useTasksDispatch() {
   return useContext(taskDispatchContext);
 }
 
-
 const TasksProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(TaskReducer, initialTasks);
   return (
@@ -27,6 +26,5 @@ const TasksProvider = ({ children }) => {
     </taskContext.Provider>
   );
 };
-
 
 export default TasksProvider;
