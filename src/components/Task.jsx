@@ -63,11 +63,13 @@ const Task = ({ task }) => {
         {" "}
         {taskContent}{" "}
         <button
-          onClick={() => { 
-            dispatch({
-              type: "deleted",
-              id: task.id,
-            });
+          onClick={() => {
+            if (confirm("Are you sure?")) {
+              dispatch({
+                type: "deleted",
+                id: task.id,
+              });
+            }
           }}
         >
           Delete
